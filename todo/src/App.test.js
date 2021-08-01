@@ -1,13 +1,20 @@
-import { render, screen } from '@testing-library/react';
+import React from 'react';
 import * as ReactDOM from 'react-dom';
+import {render} from '@testing-library/dom';
 import App from './App';
 
-test('ToDo', () => {
+function render(component){
   const root = document.createElement('div');
-  ReactDOM.render(<App/>, root);
+  ReactDOM.render(component, root);
+  return getQueriesForElement(root);
+}
+
+test('ToDo', () => {
+  const {getByText, getByLabelText} = render(<App/>);
 
   //after rendering our component
-  //use DOM APIs (query selector) to make assertions
-  expect(root.querySelector('h1').textContent).toBe('TODO');
-  expect(root.querySelector('label').textContent).toBe('Add todo: ');
+  getByText('TODO');
+  getByLabelText('Add Todo');
+  getByText('Add #1');
+
 });
